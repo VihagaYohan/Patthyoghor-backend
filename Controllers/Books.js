@@ -40,6 +40,23 @@ exports.getBookById = async (req, res, next) => {
   }
 };
 
+// @desc    get all trending books
+// @route   GET/api/books/trending
+// @access  PUBLIC
+exports.getTrendingBooks = async(req,res,next)=>{
+  try{
+    let books = await Book.find({isTrending:true});
+    if(books.length==0) return next(new ErrorResponse('There are no trending books to show',404));
+
+    res.status(200).json({
+      success:true,
+      data:books
+    })
+  }catch(error){
+    next(error.message, 500);
+  }
+}
+
 // @desc    Add book
 // @route   POST/api/books
 // @access  PUBLIC
@@ -74,12 +91,13 @@ exports.updateBook = async (req, res, next) => {
         new ErrorResponse("Unable to locate book for the given ID", 404)
       );
 
-    let { title, authors, genre, language, description } = req.body;
+    let { title, authors, genre, language, description,isTrending } = req.body;
     book.title = title;
     book.authors = authors;
     book.genere = genre;
     book.language = language;
     book.description = description;
+    book.isTrending = isTrending;
 
     book = await book.save();
 
@@ -92,15 +110,38 @@ exports.updateBook = async (req, res, next) => {
   }
 };
 
+
 // @desc    upload book picture
-// @route   PUT/api/books
+// @route   POST/api/books/upload/:id
 // @access  PUBLIC
 exports.uploadBookImage = async (req, res, next) => {
   try {
-    res.status(200).json({
+    /* res.status(200).json({
       success:true,
       data:"http://localhost:5000/uploads/" + req.file.path
-    })
+    }) */
+
+    let book = await Book.findById(req.params.id);
+    if(!book) return next(new ErrorResponse('Unable to locate the book for give ID',404))
+
+    let imagePath = "http://localhost:5000/uploads/" + req.file.path
+
+    let { title, authors, genre, language, description,isTrending } = req.body;
+    book.title = title;
+    book.authors = authors;
+    book.genere = genre;
+    book.language = language;
+    book.description = description;
+    book.isTrending = isTrending;
+    book.imageUrl = imagePath
+
+    book = await book.save();
+
+    res.status(200).json({
+      success: true,
+      data: book,
+    });
+
   } catch (error) {
     next(error.message, 500);
   }

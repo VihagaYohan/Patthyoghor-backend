@@ -33,13 +33,14 @@ const bookSchema = new mongoose.Schema({
     minLength: [10, "Description should be longer than 10 characters"],
     maxLength: [250, "Description should be longer than 250 characters"],
   },
-  content: {
-    type: [String],
-    trim: true,
+  isTrending:{
+    type:Boolean,
+    default:false
   },
-  review: {
-    type: [],
-  },
+  imageUrl:{
+    type:String,
+    default:"http://localhost:5000/uploads/default_book.jpg"
+  }
 },{timestamps:true});
 
 // create book schema

@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getAllBooks,
   getBookById,
+  getTrendingBooks,
   addBook,
   updateBook,
   uploadBookImage,
@@ -49,6 +50,7 @@ const upload = multer({
 });
 
 router.route("/").get(Auth, getAllBooks).post(Auth, addBook);
+router.route('/trending').get(Auth,getTrendingBooks)
 router.route("/:id").get(Auth, getBookById).put(Auth, updateBook);
 router.route("/upload").post(Auth, upload.single("image"), uploadBookImage);
 
