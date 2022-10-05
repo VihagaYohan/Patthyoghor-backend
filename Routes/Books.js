@@ -3,6 +3,7 @@ const {
   getAllBooks,
   getBookById,
   getTrendingBooks,
+  getBooksByType,
   addBook,
   updateBook,
   uploadBookImage,
@@ -50,8 +51,10 @@ const upload = multer({
 });
 
 router.route("/").get(Auth, getAllBooks).post(Auth, addBook);
+router.route('/types').get(Auth,getBooksByType);
+//router.route('/types/?type').get(Auth,getBooksByType);
 router.route('/trending').get(Auth,getTrendingBooks)
 router.route("/:id").get(Auth, getBookById).put(Auth, updateBook);
-router.route("/upload").post(Auth, upload.single("image"), uploadBookImage);
+router.route("/upload/:id").post(Auth, upload.single("image"), uploadBookImage);
 
 module.exports = router;
