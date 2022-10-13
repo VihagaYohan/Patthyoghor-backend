@@ -27,6 +27,10 @@ const bookSchema = new mongoose.Schema({
     required: true,
     default: "hindi",
   },
+  price:{
+    type:mongoose.Decimal128,
+    required:true
+  },
   description: {
     type: String,
     trim: true,
