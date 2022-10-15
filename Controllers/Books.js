@@ -26,7 +26,7 @@ exports.getAllBooks = async (req, res, next) => {
 // @access  PUBLIC
 exports.getBookById = async (req, res, next) => {
   try {
-    let book = await Book.findById(req.params.id);
+    let book = await Book.findById(req.params.id).populate('authors');
     if (!book)
       return next(
         new ErrorResponse("Unable to locate book for the given ID", 404)
