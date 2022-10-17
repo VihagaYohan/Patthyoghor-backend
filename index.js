@@ -24,6 +24,7 @@ const categories = require("./Routes/Categories");
 const authors = require('./Routes/Author')
 const books = require('./Routes/Books')
 const orders = require('./Routes/Orders')
+const reviews  = require('./Routes/Reviews')
 
 const app = express();
 app.use(cors());
@@ -42,6 +43,7 @@ app.use('/api/authors',authors)
 app.use('/api/auth',auth)
 app.use('/api/books',books)
 app.use('/api/orders',orders)
+app.use('/api/reviews',reviews)
 
 
 app.use(ErrorHandler);
