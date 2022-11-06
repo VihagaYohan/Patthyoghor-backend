@@ -7,6 +7,7 @@ const {
   addBook,
   updateBook,
   uploadBookImage,
+  addContents
 } = require("../Controllers/Books");
 const Auth = require("../Middleware/Auth");
 const multer = require("multer");
@@ -56,5 +57,7 @@ router.route('/types').get(Auth,getBooksByType);
 router.route('/trending').get(Auth,getTrendingBooks)
 router.route("/:id").get(Auth, getBookById).put(Auth, updateBook);
 router.route("/upload/:id").post(Auth, upload.single("image"), uploadBookImage);
+router.route('/content/:id').post(Auth,addContents)
+
 
 module.exports = router;

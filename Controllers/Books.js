@@ -177,3 +177,37 @@ exports.uploadBookImage = async (req, res, next) => {
     next(error.message, 500);
   }
 };
+
+// @desc    add content to books
+// @route   POST/api/books/content/:id
+// @access  PUBLIC
+exports.addContents = async(req,res,next) =>{
+  try{
+    let book = await Book.findById(req.params.id)
+    if (!book)
+    return next(
+      new ErrorResponse("Unable to locate the book for give ID", 404)
+    );
+
+    let {title,authors,genere,language,price,description,isTrending,imageUrl} = book;
+    book.title = title;
+    book.authors = authors;
+    book.genere = genere;
+    book.language = language;
+    book.price = price;
+    book.description = description;
+    book.isTrending = isTrending;
+    book.imageUrl = imageUrl;
+    book.content = req.body.content
+
+    book = await book.save();
+
+    res.status(200).json({
+      success:true,
+      data:book
+    })
+
+  }catch(error){
+    next(error.message,500)
+  }
+}
